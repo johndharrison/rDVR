@@ -17,7 +17,7 @@ checkForVServer <- function (jarloc = NULL, update = FALSE)
   jarLoc <- ifelse(is.null(jarloc), file.path(find.package("rDVR"), "bin"), jarloc)
   dvrFILE <- paste0(jarLoc, "selenium-server-standalone.jar")
   if (update || !file.exists(dvrFILE)) {
-    print("PLEASE NOTE THIS FUNCTION WILL DOWNLOAD A STANDALONE BINARY JAVA
+    cat("        PLEASE NOTE THIS FUNCTION WILL DOWNLOAD A STANDALONE BINARY JAVA
         JAR FROM https://github.com/johndharrison/rDVR/inst/bin/. THIS JAR
         HAS BEEN COMPILED BY THE AUTHOR OF THIS PACKAGE> IF YOU WOULD 
         PREFER TO COMPILE YOUR OWN PLEASE REFER TO THE DOCUMENTATION.")
@@ -31,7 +31,7 @@ checkForVServer <- function (jarloc = NULL, update = FALSE)
   }
 }
 
-#' Start the video server.
+#' Start the Video Server.
 #' 
 #' \code{startVideoServer}
 #' A utility function to start the standalone video server. 
