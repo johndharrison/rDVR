@@ -1,0 +1,82 @@
+#' Check for Video Server binary
+#' 
+#' \code{checkForVServer}
+#' A utility function to check if the Video Server standalone binary is present.
+#' @param dir A directory in which the binary is to be placed. Defaults to the /bin of rDVR package.
+#' @param update A boolean indicating whether to update the binary if it is present.
+#' @export
+#' @section Detail: The Video Server java binary can be found at https://github.com/johndharrison/rDVR. If users would like to create their own please refe to documentation. This convience function downloads the standalone server and places it in the rDVR package directory bin folder by default.
+#' @examples
+#' \dontrun{
+#' checkForVServer()
+#' }
+
+checkForVServer <- function (jarloc = NULL, update = FALSE) 
+{
+  vsURL <- "https://github.com/johndharrison/rDVR/inst/bin/"
+  jarLoc <- ifelse(is.null(jarloc), file.path(find.package("rDVR"), "bin"), jarloc)
+  dvrFILE <- paste0(jarLoc, "selenium-server-standalone.jar")
+  if (update || !file.exists(dvrFILE)) {
+    print("PLEASE NOTE THIS FUNCTION WILL DOWNLOAD A STANDALONE BINARY JAVA
+        JAR FROM https://github.com/johndharrison/rDVR/inst/bin/. THIS JAR
+        HAS BEEN COMPILED BY THE AUTHOR OF THIS PACKAGE> IF YOU WOULD 
+        PREFER TO COMPILE YOUR OWN PLEASE REFER TO THE DOCUMENTATION.")
+    ans <- readline("PLEASE REPLY (Y) yes TO PROCEED:")
+    if(!identical(ans, "Y")){stop("Please agree to download or read documentation on rolling your own binary.")}
+    dir.create(jarLoc, showWarnings=FALSE)
+    print("DOWNLOADING STANDALONE SELENIUM SERVER. THIS MAY TAKE SEVERAL MINUTES")
+    download.file(paste0( vsURL, "selenium-server-standalone.jar"), selFILE, mode = "wb")
+  }else{
+    stop("FILE ALREADY EXISTS.")
+  }
+}
+
+#' Start the video server.
+#' 
+#' \code{startVideoServer}
+#' A utility function to start the standalone video server. 
+#' @param jarloc A directory in which the standalone video server binary is located. Defaults to the /bin of rDVR package.
+#' @param savedir A directory where the user would like videos saved to.  If not declared it defaults to the temp folder (which varies depending on the OS).
+#' @param port The port on which the video server will listen. Defaults to 9998.
+#' @param distmode You can enable a "distribution" mode for the storage of recorded videos that will use the last two characters of the filename requested to save video to place it in a subfolder. By default, if you want to save a video with the name, say, videofile20987 you will end up with the file stored at: /path/to/dest/folder/videofile20987.mov.
+#' If you had enabled the distribution mode with distmode = TRUE the video would be stored at: /path/to/dest/folder/87/videofile20987.mov
+#' @export
+#' @section Detail: By default the binary is assumed to be in
+#' the rDVR package /bin directory. 
+#' @examples
+#' \dontrun{
+#' startVideoServer()
+#' }
+
+startVideoServer <- function (jarloc = NULL, savedir = NULL, port = NULL, distmode = FALSE) 
+{
+  jarLoc <- ifelse(is.null(jarloc), file.path(find.package("rDVR"), "bin"), jarloc)
+  saveDIR <- savedir
+  if(distmode){distMode <- "true"}else{distMode <- NULL}
+  dvrFILE <- file.path(jarLoc, "videorecorderservice-2.0.jar")
+  if (!file.exists(selFILE)) {
+    stop("No Video Recorder binary exists. Run checkForVServer or start video server manually.")
+  }
+  else {
+    jarOpt <- list('-jar ' = shQuote(dvrFILE), '-DdestFolder=' = saveDIR
+                   , '-Dport=' = port, '-DdistributeFiles=' = distMode)
+    jarOpt <- jarOpt[!sapply(jarOpt, is.null)]
+    if (.Platform$OS.type == "unix") {
+      system(paste0('java ', paste0(names(jarOpt), jarOpt, collapse = ' ')), wait = FALSE, 
+             ignore.stdout = TRUE, ignore.stderr = TRUE)
+    }
+    else {
+      system(paste0('java ', paste0(names(jarOpt), jarOpt, collapse = ' ')), wait = FALSE, 
+             invisible = FALSE)
+    }
+  }
+}
+
+#' @export .DollarNames.rDVR
+#' 
+
+.DollarNames.rDVR <- function(x, pattern){
+  grep(pattern, getRefClass(class(x))$methods(), value=TRUE)
+}
+
+
