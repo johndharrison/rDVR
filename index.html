@@ -4,7 +4,7 @@
   <head>
     <meta charset='utf-8' />
     <meta http-equiv="X-UA-Compatible" content="chrome=1" />
-    <meta name="description" content="rDVR : Record your moments of R bliss/misery for posterity!!" />
+    <meta name="description" content="rDVR : Cross Platform (Lin/Win/OSx) DVR for R" />
 
     <link rel="stylesheet" type="text/css" media="screen" href="stylesheets/stylesheet.css">
 
@@ -19,7 +19,7 @@
           <a id="forkme_banner" href="https://github.com/johndharrison/rDVR">View on GitHub</a>
 
           <h1 id="project_title">rDVR</h1>
-          <h2 id="project_tagline">Record your moments of R bliss/misery for posterity!!</h2>
+          <h2 id="project_tagline">Cross Platform (Lin/Win/OSx) DVR for R</h2>
 
             <section id="downloads">
               <a class="zip_download_link" href="https://github.com/johndharrison/rDVR/zipball/master">Download this project as a .zip file</a>
@@ -34,7 +34,7 @@
         <h1>
 <a name="rdvr" class="anchor" href="#rdvr"><span class="octicon octicon-link"></span></a>rDVR</h1>
 
-<p>The rDVR package provides an R wrapper to a REST API for a video server. The REST API is written in JAVA and is a modified version of <a href="https://github.com/tuenti/VideoRecorderService">VideoRecorderService</a>. This video server relies on the screen recorder included in the great Monte Media Library developed by Werner Randelshofer (http://<a href="http://www.randelshofer.ch/monte/">http://www.randelshofer.ch/monte/</a>). It has been modified to run as a background process and record for up-to 10 minutes. An extra method /rec/closeserver has been added to the REST API to enable shutting down of the service.</p>
+<p>The rDVR package provides an R wrapper to a REST API for a video server. The REST API is written in JAVA and is a modified version of <a href="https://github.com/tuenti/VideoRecorderService">VideoRecorderService</a>. This video server relies on the screen recorder included in the great Monte Media Library developed by Werner Randelshofer (http://<a href="http://www.randelshofer.ch/monte/">http://www.randelshofer.ch/monte/</a>). It has been modified to run as a background process and record for up-to 10 minutes. An extra method /rec/closeserver has been added to the REST API to enable shutting down of the service. It has been tested on Ubuntu 12.04, Windows 8.1 and OSx 10.9 mavericks. </p>
 
 <h3>
 <a name="usage" class="anchor" href="#usage"><span class="octicon octicon-link"></span></a>USAGE</h3>
@@ -68,6 +68,11 @@ DVR$closeServer()
 require(rDVR)
 
 </code></pre>
+
+<h3>
+<a name="support-or-contact" class="anchor" href="#support-or-contact"><span class="octicon octicon-link"></span></a>Support or Contact</h3>
+
+<p>Having trouble with rDVR? We would love to help you at <a href="https://github.com/johndharrison/rDVR">https://github.com/johndharrison/rDVR</a>. File an issue and help us to improve rDVR.</p>
       </section>
     </div>
 
