@@ -36,10 +36,10 @@
 
 <p>The rDVR package provides an R wrapper to a REST API for a video server. The REST API is written in JAVA and is a modified version of <a href="https://github.com/tuenti/VideoRecorderService">VideoRecorderService</a>. This video server relies on the screen recorder included in the great Monte Media Library developed by Werner Randelshofer (http://<a href="http://www.randelshofer.ch/monte/">http://www.randelshofer.ch/monte/</a>). It has been modified to run as a background process and record for up-to 10 minutes. An extra method /rec/closeserver has been added to the REST API to enable shutting down of the service.</p>
 
-<h2>
-<a name="usage" class="anchor" href="#usage"><span class="octicon octicon-link"></span></a>USAGE</h2>
+<h3>
+<a name="usage" class="anchor" href="#usage"><span class="octicon octicon-link"></span></a>USAGE</h3>
 
-<p>Using <code>rDVR</code> is starightforward. The main object is a reference class which controls the video service.
+<p>Using <code>rDVR</code> is straightforward. The main object is a reference class which controls the video service.
 There are utility functions to start the service and to download a compiled server.</p>
 
 <pre><code>require(rDVR)
@@ -51,8 +51,16 @@ DVR$save()
 DVR$closeServer()
 </code></pre>
 
-<h2>
-<a name="record-selenium-tests" class="anchor" href="#record-selenium-tests"><span class="octicon octicon-link"></span></a>Record Selenium tests</h2>
+<h3>
+<a name="getting-started" class="anchor" href="#getting-started"><span class="octicon octicon-link"></span></a>Getting started</h3>
+
+<p>To install <code>rDVR</code> you will need the devtools package. If necessary (install.packages("devtools")) and run:</p>
+
+<pre><code>devtools::install_github("rDVR", "johndharrison")
+</code></pre>
+
+<h3>
+<a name="record-selenium-tests" class="anchor" href="#record-selenium-tests"><span class="octicon octicon-link"></span></a>Record Selenium tests</h3>
 
 <p><code>rDVR</code> can be used to record your Selenium tests ran with <a href="http://johndharrison.github.io/RSelenium/">RSelenium</a></p>
 
@@ -60,8 +68,6 @@ DVR$closeServer()
 require(rDVR)
 
 </code></pre>
-
-<EMBED SRC="http://malsup.github.com/video/ski.wmv" WIDTH=240 HEIGHT = 196 AUTOPLAY=true CONTROLLER=true LOOP=false PLUGINSPAGE=http://www.apple.com/quicktime/">
       </section>
     </div>
 
