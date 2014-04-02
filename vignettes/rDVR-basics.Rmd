@@ -1,0 +1,26 @@
+---
+title: "Recording R Sessions with rDVR: An example using RSelenium"
+author: "John D Harrison"
+date: "02 April 2014"
+output:
+  html_document:
+    toc: yes
+---
+
+<!--
+%\VignetteEngine{knitr::knitr}
+%\VignetteIndexEntry{RSelenium basics}
+-->
+
+```{r, echo = FALSE, message = FALSE}
+library(knitr)
+library(RSelenium)
+opts_chunk$set(comment = "#>", error = TRUE, tidy = FALSE)
+```
+
+# rDVR basics
+
+## Introduction
+
+The goal of rDVR is to make it easy to record an R session across platforms. rDVR was initially concieved to aid in testing web applications such as those written with [shiny](http://www.rstudio.com/shiny/). One way to test such applications is with [Selenium](http://docs.seleniumhq.org/). Selenium automates browsers. Often when testing wep applications it is useful to have visual aids when items fail. Selenium itself allows the user to take screenshots and indeed automate the taking of screenshots when errors are encountered.
+
