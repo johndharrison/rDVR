@@ -2,7 +2,7 @@
 #' 
 #' \code{checkForVServer}
 #' A utility function to check if the Video Server standalone binary is present.
-#' @param dir A directory in which the binary is to be placed. Defaults to the /bin of rDVR package.
+#' @param jarloc A directory in which the binary is to be placed. Defaults to the /bin of rDVR package.
 #' @param update A boolean indicating whether to update the binary if it is present.
 #' @export
 #' @section Detail: The Video Server java binary can be found at https://github.com/johndharrison/rDVR. If users would like to create their own please refe to documentation. This convience function downloads the standalone server and places it in the rDVR package directory bin folder by default.

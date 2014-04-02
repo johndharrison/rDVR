@@ -6,7 +6,7 @@
 checkForVServer(jarloc = NULL, update = FALSE)
 }
 \arguments{
-  \item{dir}{A directory in which the binary is to be
+  \item{jarloc}{A directory in which the binary is to be
   placed. Defaults to the /bin of rDVR package.}
 
   \item{update}{A boolean indicating whether to update the

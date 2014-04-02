@@ -10,7 +10,11 @@ Description: The rDVR package allows you to start stop and save a video server
     (http://http://www.randelshofer.ch/monte/). The REST interface was modified
     from https://github.com/tuenti/VideoRecorderService which has an Apache
     licence.
+URL: http://johndharrison.github.io/rDVR/
+BugReports: https://github.com/johndharrison/rDVR/issues
+Imports:
+    methods,RCurl
 Depends:
     R (>= 3.0.0)
 License: AGPL-3
-LazyData: true
+LazyData: yes

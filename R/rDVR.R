@@ -24,9 +24,10 @@
 #' \item{\code{silent: }}{A boolean. If TRUE the method will run silently}
 #' }
 #' }
-#' \item{\code{save(silent)}:}{ Save a currently running video to file. The file is given by the fileName used in the \code{start} method. The directory that the file is written to is the save directory stipulated when the Video Server was started.
+#' \item{\code{save(silent, replace)}:}{ Save a currently running video to file. The file is given by the fileName used in the \code{start} method. The directory that the file is written to is the save directory stipulated when the Video Server was started.
 #' \describe{
 #' \item{\code{silent: }}{A boolean. If TRUE the method will run silently}
+#' \item{\code{replace: }}{A boolean. If TRUE then rDVR will replace a file if it already exists. If false rDVR will append 'copy' to the saveFile name.}
 #' }
 #' }
 #' \item{\code{stop(silent)}:}{ Stops a currently running video. Using stop rather then save will result in the video being stopped but not saved.
@@ -73,8 +74,15 @@ rDVR <- setRefClass("rDVR",
                         res <- getURLContent(ipAddr, customrequest = "GET", isHTTP = FALSE)
                       },
                       
-                      save = function(silent = FALSE){
+                      save = function(silent = FALSE, replace = TRUE){
                         if(!silent){print("Saving video ")}
+                        if(file.exists(file.path(saveDir, paste0(saveFile, '.mov')))){
+                          if(replace){
+                            file.remove(file.path(saveDir, paste0(saveFile, '.mov')))
+                          }else{
+                            saveFile <<- paste0(saveFile, "copy")
+                          }
+                        }
                         ipAddr <- paste0(serverURL, '/rec/save/', saveFile)
                         res <- getURLContent(ipAddr, customrequest = "GET", isHTTP = FALSE)
                       },
