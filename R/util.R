@@ -59,8 +59,8 @@ startVideoServer <- function (jarloc = NULL, savedir = NULL, port = NULL, distmo
     stop("No Video Recorder binary exists. Run checkForVServer or start video server manually.")
   }
   else {
-    jarOpt <- list('-jar ' = shQuote(dvrFILE), '-DdestFolder=' = saveDIR
-                   , '-Dport=' = port, '-DdistributeFiles=' = distMode)
+    jarOpt <- list('-DdestFolder=' = saveDIR
+                   , '-Dport=' = port, '-DdistributeFiles=' = distMode, '-jar ' = shQuote(dvrFILE))
     jarOpt <- jarOpt[!sapply(jarOpt, is.null)]
     if (.Platform$OS.type == "unix") {
 #      system(paste0('nohup java ', paste0(names(jarOpt), jarOpt, collapse = ' '), ">>/dev/null 2>>/dev/null &")
