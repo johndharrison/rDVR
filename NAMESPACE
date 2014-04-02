@@ -2,4 +2,8 @@
 
 export(.DollarNames.rDVR)
 export(checkForVServer)
+export(rDVR)
 export(startVideoServer)
+exportClasses(rDVR)
+import(RCurl)
+import(methods)

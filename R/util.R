@@ -13,19 +13,19 @@
 
 checkForVServer <- function (jarloc = NULL, update = FALSE) 
 {
-  vsURL <- "https://github.com/johndharrison/rDVR/inst/bin/"
+  vsURL <- "https://dl.dropboxusercontent.com/u/38391057/"
   jarLoc <- ifelse(is.null(jarloc), file.path(find.package("rDVR"), "bin"), jarloc)
-  dvrFILE <- paste0(jarLoc, "selenium-server-standalone.jar")
+  dvrFILE <- paste0(jarLoc, "videorecorderservice-2.0.jar")
   if (update || !file.exists(dvrFILE)) {
     cat("        PLEASE NOTE THIS FUNCTION WILL DOWNLOAD A STANDALONE BINARY JAVA
-        JAR FROM https://github.com/johndharrison/rDVR/inst/bin/. THIS JAR
+        JAR FROM https://dl.dropboxusercontent.com/u/38391057/videorecorderservice-2.0.jar. THIS JAR
         HAS BEEN COMPILED BY THE AUTHOR OF THIS PACKAGE> IF YOU WOULD 
         PREFER TO COMPILE YOUR OWN PLEASE REFER TO THE DOCUMENTATION.")
     ans <- readline("PLEASE REPLY (Y) yes TO PROCEED:")
     if(!identical(ans, "Y")){stop("Please agree to download or read documentation on rolling your own binary.")}
     dir.create(jarLoc, showWarnings=FALSE)
-    print("DOWNLOADING STANDALONE SELENIUM SERVER. THIS MAY TAKE SEVERAL MINUTES")
-    download.file(paste0( vsURL, "selenium-server-standalone.jar"), selFILE, mode = "wb")
+    print("DOWNLOADING STANDALONE VIDEO SERVER. THIS MAY TAKE SEVERAL MINUTES")
+    download.file(paste0( vsURL, "videorecorderservice-2.0.jar"), selFILE, mode = "wb")
   }else{
     stop("FILE ALREADY EXISTS.")
   }
@@ -54,7 +54,7 @@ startVideoServer <- function (jarloc = NULL, savedir = NULL, port = NULL, distmo
   saveDIR <- savedir
   if(distmode){distMode <- "true"}else{distMode <- NULL}
   dvrFILE <- file.path(jarLoc, "videorecorderservice-2.0.jar")
-  if (!file.exists(selFILE)) {
+  if (!file.exists(dvrFILE)) {
     stop("No Video Recorder binary exists. Run checkForVServer or start video server manually.")
   }
   else {
@@ -62,8 +62,10 @@ startVideoServer <- function (jarloc = NULL, savedir = NULL, port = NULL, distmo
                    , '-Dport=' = port, '-DdistributeFiles=' = distMode)
     jarOpt <- jarOpt[!sapply(jarOpt, is.null)]
     if (.Platform$OS.type == "unix") {
-      system(paste0('java ', paste0(names(jarOpt), jarOpt, collapse = ' ')), wait = FALSE, 
-             ignore.stdout = TRUE, ignore.stderr = TRUE)
+#      system(paste0('nohup java ', paste0(names(jarOpt), jarOpt, collapse = ' '), ">>/dev/null 2>>/dev/null &")
+#             ,ignore.stdout = TRUE, ignore.stderr = TRUE, wait = FALSE)
+      system(paste0('java ', paste0(names(jarOpt), jarOpt, collapse = ' '))
+             ,ignore.stdout = TRUE, ignore.stderr = TRUE, wait = FALSE)
     }
     else {
       system(paste0('java ', paste0(names(jarOpt), jarOpt, collapse = ' ')), wait = FALSE, 

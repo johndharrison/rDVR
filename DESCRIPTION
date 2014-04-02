@@ -6,7 +6,7 @@ Authors@R: "John Harrison <johndharrison0@gmail.com> [aut, cre]"
 Description: The rDVR package allows you to start stop and save a video server
     from within R. It does this by way of a REST interface to a JAVA service.
     The jar binary relies on the screen recorder included in the Monte Media
-    Library developed by Werner Randelshofer
+    Library (CC BY 3.0 licence) developed by Werner Randelshofer
     (http://http://www.randelshofer.ch/monte/). The REST interface was modified
     from https://github.com/tuenti/VideoRecorderService which has an Apache
     licence.

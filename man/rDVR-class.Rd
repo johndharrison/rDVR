@@ -44,6 +44,9 @@ The methods start a video, save a running video and stop and running video witho
   video. Using stop rather then save will result in the
   video being stopped but not saved. \describe{
   \item{\code{silent: }}{A boolean. If TRUE the method will
+  run silently} } } \item{\code{closeServer(silent)}:}{
+  Stops a currently running Video Server. \describe{
+  \item{\code{silent: }}{A boolean. If TRUE the method will
   run silently} } } }
 }
 
