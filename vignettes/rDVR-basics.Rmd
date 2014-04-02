@@ -71,3 +71,37 @@ downloaded 4.3 Mb
 ```
 
 You can see the user is asked to answer yes that they do intend to download this `.jar` and we can see it is placed in the `rDVR` bin directory. 
+Now we can start the video server. The utility function has a number of options such as the location of the JAR. For windows users it has an `invisible` option which relates to whether the shell the server runs in is visible or not to the user. Also there is a `savedir` option. It defaults to the OS temp directory. We will set it to the current directory we are working in:
+
+```
+> getwd()
+[1] "C:/Users/john/Documents"
+
+```
+which in the case of this windows machine is the users `Documents` folder. 
+
+```
+startVideoServer(invisible = FALSE, savedir = getwd())
+```
+
+This will now start the server. If you are running windows you will be able to see the server output. Now we are ready to record our first video.
+
+### My first video
+
+```
+> DVR <- rDVR()
+> DVR$start(fileName = "firstVid")
+[1] "Starting recording of video:"
+> for(i in seq(10)){Sys.sleep(1)}
+> DVR$save()
+[1] "Saving video "
+> DVR$closeServer() # BYE BYE
+[1] "Close the Video Server."
+NULL
+
+```
+If you check the `Documents` folder (or wherever your `getwd()` is) you should hopefully have a `.mov` file `firstVid.mov`. The video was just under 1 mb in size and over a minute long. The Apple QuickTime RLE codec is used. If you would like to use a different codec this can be set on a custom compile of the JAVA project. I have posted `firstVid.mov` to youtube:
+
+<iframe width="560" height="315" src="//www.youtube.com/embed/EKm15fl083U" frameborder="0" allowfullscreen></iframe>
+
+Its very bland I think you will agree but its very simple five lines of code and you can automate a useful recording of your work etc.
