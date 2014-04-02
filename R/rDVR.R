@@ -3,7 +3,8 @@
 #' class to communicate with the Video Server.
 #'
 #' This is class composing of methods to communicate with the Java Video Server.
-#' The methods start a video, save a running video and stop and running video without saving. Please note videos are currently limited to 10 minutes in length. If you want to change this limit you will need to compile a custom binary.
+#' The methods start a video, save a running video and stop a running video without saving. Please note videos are currently limited to 10 minutes in length. If you want to change this limit you will need to compile a custom binary.
+#' Videos are encoded using the Apple QuickTime RLE codec. Currently to change the codec requires compiling a custom binary.
 #'
 #' @import RCurl
 #' @import methods
@@ -29,6 +30,11 @@
 #' }
 #' }
 #' \item{\code{stop(silent)}:}{ Stops a currently running video. Using stop rather then save will result in the video being stopped but not saved.
+#' \describe{
+#' \item{\code{silent: }}{A boolean. If TRUE the method will run silently}
+#' }
+#' }
+#' \item{\code{closeServer(silent)}:}{ Stops a currently running Video Server.
 #' \describe{
 #' \item{\code{silent: }}{A boolean. If TRUE the method will run silently}
 #' }
@@ -60,15 +66,16 @@ rDVR <- setRefClass("rDVR",
                       
                       start = function(fileName = 'Rtemp', silent = FALSE){
                         if(!silent){print("Starting recording of video:")}
-                        if(file.exists(file.path(saveDir,'Rtemp')))
-                          serverURL <<- paste0("http://",remoteServerAddr,":",port)
+                        #if(file.exists(file.path(saveDir,'Rtemp')))
+                        serverURL <<- paste0("http://",remoteServerAddr,":",port)
+                        saveFile <<- fileName
                         ipAddr <- paste0(serverURL, '/rec/start')
                         res <- getURLContent(ipAddr, customrequest = "GET", isHTTP = FALSE)
                       },
                       
                       save = function(silent = FALSE){
                         if(!silent){print("Saving video ")}
-                        ipAddr <- paste0(serverURL, '/rec/save/', fileName)
+                        ipAddr <- paste0(serverURL, '/rec/save/', saveFile)
                         res <- getURLContent(ipAddr, customrequest = "GET", isHTTP = FALSE)
                       },
                       
@@ -76,6 +83,12 @@ rDVR <- setRefClass("rDVR",
                         if(!silent){print("Stopped recording. Video not saved.")}
                         ipAddr <- paste0(serverURL, '/rec/stop')
                         res <- getURLContent(ipAddr, customrequest = "GET", isHTTP = FALSE)
+                      },
+                      
+                      closeServer = function(silent = FALSE){
+                        if(!silent){print("Close the Video Server.")}
+                        ipAddr <- paste0(serverURL, '/rec/closeserver')
+                        tryCatch(res <- getURLContent(ipAddr, customrequest = "GET", isHTTP = FALSE), error = function(e){})
                       }
                     )
 )

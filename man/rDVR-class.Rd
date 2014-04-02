@@ -9,7 +9,8 @@ class to communicate with the Video Server.
 }
 \details{
 This is class composing of methods to communicate with the Java Video Server.
-The methods start a video, save a running video and stop and running video without saving. Please note videos are currently limited to 10 minutes in length. If you want to change this limit you will need to compile a custom binary.
+The methods start a video, save a running video and stop a running video without saving. Please note videos are currently limited to 10 minutes in length. If you want to change this limit you will need to compile a custom binary.
+Videos are encoded using the Apple QuickTime RLE codec. Currently to change the codec requires compiling a custom binary.
 }
 \section{Fields}{
   \describe{ \item{\code{remoteServerAddr}:}{Object of
