@@ -9,7 +9,7 @@ output:
 
 <!--
 %\VignetteEngine{knitr::knitr}
-%\VignetteIndexEntry{RSelenium basics}
+%\VignetteIndexEntry{rDVR basics}
 -->
 
 ```{r, echo = FALSE, message = FALSE}
@@ -22,5 +22,52 @@ opts_chunk$set(comment = "#>", error = TRUE, tidy = FALSE)
 
 ## Introduction
 
-The goal of rDVR is to make it easy to record an R session across platforms. rDVR was initially concieved to aid in testing web applications such as those written with [shiny](http://www.rstudio.com/shiny/). One way to test such applications is with [Selenium](http://docs.seleniumhq.org/). Selenium automates browsers. Often when testing wep applications it is useful to have visual aids when items fail. Selenium itself allows the user to take screenshots and indeed automate the taking of screenshots when errors are encountered.
+The goal of rDVR is to make it easy to record an R session across platforms. rDVR was initially concieved to aid in testing web applications such as those written with [shiny](http://www.rstudio.com/shiny/). One way to test such applications is with [Selenium](http://docs.seleniumhq.org/). Selenium automates browsers. Often when testing wep applications it is useful to have visual aids when items fail. Selenium itself allows the user to take screenshots and indeed automate the taking of screenshots when errors are encountered. Screenshots are great but video is even better. Selenium allows you to control a diverse range of browsers across multiple operating systems thus any video solution needs to be cross platform.
 
+### Monte Media Library
+
+The Monte Media Library is a Java library for processing media data. Supported media formats include still images, video, audio and meta-data. Part of the library has a screen recorder associated with it. We can utilise this to create a video server. Importantly use of the Monte Media Library is free for all uses (non-commercial, commercial and educational) under the terms of Creative Commons Attribution 3.0 (CC BY 3.0). rDVR doesnt incoporate any code from Monte Media Library but it does give you the option to drive a binary derived from it. 
+
+### Tuenti
+
+The next piece of the puzzle was to create a Java application that would be cross platform using the video recorder element of the Monte Media Library. Thankfully all the hard work in this respect was done for us. [Tuenti](http://corporate.tuenti.com/en/dev/blog/video-recordings-of-browser-tests) had been using just this approach to aid their Selenium web testing. They had created a REST API using 
+Grizzly, Jersey, and Glassfish. Best of all they had been kind enough to release it all recently under an Apache licence.
+A few minor changes were made to Tuenti's [solution](https://github.com/tuenti/VideoRecorderService). Firstly the length of video was extended from 2 minutes to 10 minutes. Next the server was altered so that it would run as a background process in linux. Finally a REST API endpoint was added `/rec/closeserver` to handle closing the server down. These additions and modifications are accessible at https://github.com/johndharrison/VideoRecorderService .
+
+# Usage
+
+## Basic usage
+
+### Install
+Basic usage in this respect relates to using the provided binary and not rolling your own. I have compiled the jar file and it resides at https://dl.dropboxusercontent.com/u/38391057/videorecorderservice-2.0.jar . The jar is not signed. If anyone would be kind enough to compile the project on Maven and sign it I would be very grateful. Initially lets assume the user is using this provided binary. Currently rDVR is available on github but not CRAN. To install rDVR we will use the `devtools` package.
+
+```
+devtools::install_github('johndharrison/rDVR')
+library(rDVR)
+> startVideoServer()
+Error in startVideoServer() : 
+  No Video Recorder binary exists. Run checkForVServer or start video server manually.
+
+```
+### Get the server JAR
+When first the `startVideoServer` utility function is ran it requires a compiled binary of the project at https://github.com/johndharrison/VideoRecorderService. The utility function `checkForVServer` can download the necessary binary for the user. It places this jar file in the /bin directory of the `rDVR` package by default. There is an option to place the jar elsewhere see the documentation. 
+
+```
+> checkForVServer()
+        PLEASE NOTE THIS FUNCTION WILL DOWNLOAD A STANDALONE BINARY JAVA
+        JAR FROM https://dl.dropboxusercontent.com/u/38391057/videorecorderservice-2.0.jar. THIS JAR
+        HAS BEEN COMPILED BY THE AUTHOR OF THIS PACKAGE> IF YOU WOULD 
+        PREFER TO COMPILE YOUR OWN PLEASE REFER TO THE DOCUMENTATION.
+PLEASE REPLY (Y) yes TO PROCEED:Y
+[1] "DOWNLOADING STANDALONE VIDEO SERVER. THIS MAY TAKE SEVERAL MINUTES"
+trying URL 'http://dl.dropboxusercontent.com/u/38391057/videorecorderservice-2.0.jar'
+Content type 'application/java-archive' length 4466003 bytes (4.3 Mb)
+opened URL
+downloaded 4.3 Mb
+
+> list.files(file.path(find.package('rDVR'), 'bin'))
+[1] "run.sh"                       "videorecorderservice-2.0.jar"
+
+```
+
+You can see the user is asked to answer yes that they do intend to download this `.jar` and we can see it is placed in the `rDVR` bin directory. 
