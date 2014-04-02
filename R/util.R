@@ -20,12 +20,12 @@ checkForVServer <- function (jarloc = NULL, update = FALSE)
     cat("        PLEASE NOTE THIS FUNCTION WILL DOWNLOAD A STANDALONE BINARY JAVA
         JAR FROM https://dl.dropboxusercontent.com/u/38391057/videorecorderservice-2.0.jar. THIS JAR
         HAS BEEN COMPILED BY THE AUTHOR OF THIS PACKAGE> IF YOU WOULD 
-        PREFER TO COMPILE YOUR OWN PLEASE REFER TO THE DOCUMENTATION.")
+        PREFER TO COMPILE YOUR OWN PLEASE REFER TO THE DOCUMENTATION.\n")
     ans <- readline("PLEASE REPLY (Y) yes TO PROCEED:")
     if(!identical(ans, "Y")){stop("Please agree to download or read documentation on rolling your own binary.")}
     dir.create(jarLoc, showWarnings=FALSE)
     print("DOWNLOADING STANDALONE VIDEO SERVER. THIS MAY TAKE SEVERAL MINUTES")
-    download.file(paste0( vsURL, "videorecorderservice-2.0.jar"), selFILE, mode = "wb")
+    download.file(paste0( vsURL, "videorecorderservice-2.0.jar"), dvrFILE, mode = "wb")
   }else{
     stop("FILE ALREADY EXISTS.")
   }
