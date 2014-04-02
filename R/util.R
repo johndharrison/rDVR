@@ -15,7 +15,7 @@ checkForVServer <- function (jarloc = NULL, update = FALSE)
 {
   vsURL <- "http://dl.dropboxusercontent.com/u/38391057/"
   jarLoc <- ifelse(is.null(jarloc), file.path(find.package("rDVR"), "bin"), jarloc)
-  dvrFILE <- paste0(jarLoc, "videorecorderservice-2.0.jar")
+  dvrFILE <- file.path(jarLoc, "videorecorderservice-2.0.jar")
   if (update || !file.exists(dvrFILE)) {
     cat("        PLEASE NOTE THIS FUNCTION WILL DOWNLOAD A STANDALONE BINARY JAVA
         JAR FROM https://dl.dropboxusercontent.com/u/38391057/videorecorderservice-2.0.jar. THIS JAR
