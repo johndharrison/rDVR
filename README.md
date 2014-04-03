@@ -25,11 +25,8 @@ devtools::install_github("rDVR", "johndharrison")
 
 `rDVR` can be used to record your Selenium tests ran with [RSelenium](http://johndharrison.github.io/RSelenium/)
 
-```
-require(RSelenium)
-require(rDVR)
+<iframe width="560" height="315" src="//www.youtube.com/embed/XvVBT-rojz0" frameborder="0" allowfullscreen></iframe>
 
-```
 ### Support or Contact
 
 Having trouble with rDVR? We would love to help you at https://github.com/johndharrison/rDVR. File an issue and help us to improve rDVR.

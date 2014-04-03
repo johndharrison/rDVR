@@ -111,6 +111,7 @@ Its very bland I think you will agree but its very simple five lines of code and
 An example using `RSelenium` will look at the demo from the [shinyBS](http://cran.r-project.org/web/packages/shinyBS/index.html) package. I have a mirror of the demo running at http://spark.rstudio.com/johnharrison/shinyBS-Demo/. The `shinyBS` package extends the users ability to integrate the twitter bootstrap library into their shiny web applications. The demo is a great showcase for the package and we will record `RSelenium` interacting with the various components.
 We look at the first three tabs for brevity. You can view the code that created the video in the Appendix. I have posted `secondVid.mov` to youtube:
 
+<iframe width="560" height="315" src="//www.youtube.com/embed/XvVBT-rojz0" frameborder="0" allowfullscreen></iframe>
 
 # Compiling the JAVA service
 
