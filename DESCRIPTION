@@ -16,5 +16,7 @@ Imports:
     methods,RCurl
 Depends:
     R (>= 3.0.0)
+Suggests:
+    knitr,RSelenium
 License: AGPL-3
 LazyData: yes
