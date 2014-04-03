@@ -40,7 +40,7 @@ checkForVServer <- function (jarloc = NULL, update = FALSE)
 #' @param port The port on which the video server will listen. Defaults to 9998.
 #' @param distmode You can enable a "distribution" mode for the storage of recorded videos that will use the last two characters of the filename requested to save video to place it in a subfolder. By default, if you want to save a video with the name, say, videofile20987 you will end up with the file stored at: /path/to/dest/folder/videofile20987.mov.
 #' If you had enabled the distribution mode with distmode = TRUE the video would be stored at: /path/to/dest/folder/87/videofile20987.mov
-#' @param invisble (Windows Only) Show the video server in a shell. By default it is invisible with setting TRUE. 
+#' @param invisible Windows Only Show the video server in a shell. By default it is invisible with setting TRUE. 
 #' @export
 #' @section Detail: By default the binary is assumed to be in
 #' the rDVR package /bin directory. 

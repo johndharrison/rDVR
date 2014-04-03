@@ -29,7 +29,7 @@ startVideoServer(jarloc = NULL, savedir = NULL, port = NULL,
   video would be stored at:
   /path/to/dest/folder/87/videofile20987.mov}
 
-  \item{invisble}{(Windows Only) Show the video server in a
+  \item{invisible}{Windows Only Show the video server in a
   shell. By default it is invisible with setting TRUE.}
 }
 \description{

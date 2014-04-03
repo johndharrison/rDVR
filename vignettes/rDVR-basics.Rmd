@@ -89,7 +89,7 @@ This will now start the server. If you are running windows you will be able to s
 ### My first video
 
 ```
-> DVR <- rDVR()
+> DVR <- rDVR(saveDir = getwd())
 > DVR$start(fileName = "firstVid")
 [1] "Starting recording of video:"
 > for(i in seq(10)){Sys.sleep(1)}
