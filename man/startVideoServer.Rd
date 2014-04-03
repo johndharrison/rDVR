@@ -4,7 +4,7 @@
 \title{Start the Video Server.}
 \usage{
 startVideoServer(jarloc = NULL, savedir = NULL, port = NULL,
-  distmode = FALSE)
+  distmode = FALSE, invisible = TRUE)
 }
 \arguments{
   \item{jarloc}{A directory in which the standalone video
@@ -28,6 +28,9 @@ startVideoServer(jarloc = NULL, savedir = NULL, port = NULL,
   enabled the distribution mode with distmode = TRUE the
   video would be stored at:
   /path/to/dest/folder/87/videofile20987.mov}
+
+  \item{invisble}{(Windows Only) Show the video server in a
+  shell. By default it is invisible with setting TRUE.}
 }
 \description{
 \code{startVideoServer}
