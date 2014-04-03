@@ -1,7 +1,7 @@
 Package: rDVR
 Title: The rDVR package allows you to start stop and save a video server from
     within R.
-Version: 0.1
+Version: 0.1.1
 Authors@R: "John Harrison <johndharrison0@gmail.com> [aut, cre]"
 Description: The rDVR package allows you to start stop and save a video server
     from within R. It does this by way of a REST interface to a JAVA service.
@@ -18,5 +18,6 @@ Depends:
     R (>= 3.0.0)
 Suggests:
     knitr,RSelenium
+VignetteBuilder: knitr
 License: AGPL-3
 LazyData: yes
