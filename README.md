@@ -23,7 +23,7 @@ devtools::install_github("rDVR", "johndharrison")
 
 ### Record Selenium tests
 
-`rDVR` can be used to record your Selenium tests ran with [RSelenium](http://johndharrison.github.io/RSelenium/). Check the sample clip produced with `rDVR` at http://johndharrison.github.io/rDVR/.
+`rDVR` can be used to record your Selenium tests ran with [RSelenium](http://johndharrison.github.io/RSelenium/). Check the sample clip produced with `rDVR` at http://johndharrison.github.io/rDVR/. There is a package vignette available at [rpubs](http://rpubs.com/johndharrison/15176) also.
 
 
 <iframe width="560" height="315" src="//www.youtube.com/embed/XvVBT-rojz0" frameborder="0" allowfullscreen></iframe>

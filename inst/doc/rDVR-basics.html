@@ -1,0 +1,427 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8"/>
+
+<title>rDVR basics</title>
+
+
+
+
+
+<style type="text/css">
+body, td {
+   font-family: sans-serif;
+   background-color: white;
+   font-size: 13px;
+}
+
+body {
+  max-width: 800px;
+  margin: auto;
+  line-height: 20px;
+}
+
+tt, code, pre {
+   font-family: 'DejaVu Sans Mono', 'Droid Sans Mono', 'Lucida Console', Consolas, Monaco, monospace;
+}
+
+h1 { 
+   font-size:2.2em; 
+}
+
+h2 { 
+   font-size:1.8em; 
+}
+
+h3 { 
+   font-size:1.4em; 
+}
+
+h4 { 
+   font-size:1.0em; 
+}
+
+h5 { 
+   font-size:0.9em; 
+}
+
+h6 { 
+   font-size:0.8em; 
+}
+
+a:visited {
+   color: rgb(50%, 0%, 50%);
+}
+
+pre, img {
+  max-width: 100%;
+}
+
+pre code {
+   display: block; padding: 0.5em;
+}
+
+code {
+  font-size: 92%;
+  border: 1px solid #ccc;
+}
+
+code[class] {
+  background-color: #F8F8F8;
+}
+
+table, td, th {
+  border: none;
+}
+
+blockquote {
+   color:#666666;
+   margin:0;
+   padding-left: 1em;
+   border-left: 0.5em #EEE solid;
+}
+
+hr {
+   height: 0px;
+   border-bottom: none;
+   border-top-width: thin;
+   border-top-style: dotted;
+   border-top-color: #999999;
+}
+
+@media print {
+   * { 
+      background: transparent !important; 
+      color: black !important; 
+      filter:none !important; 
+      -ms-filter: none !important; 
+   }
+
+   body { 
+      font-size:12pt; 
+      max-width:100%; 
+   }
+       
+   a, a:visited { 
+      text-decoration: underline; 
+   }
+
+   hr { 
+      visibility: hidden;
+      page-break-before: always;
+   }
+
+   pre, blockquote { 
+      padding-right: 1em; 
+      page-break-inside: avoid; 
+   }
+
+   tr, img { 
+      page-break-inside: avoid; 
+   }
+
+   img { 
+      max-width: 100% !important; 
+   }
+
+   @page :left { 
+      margin: 15mm 20mm 15mm 10mm; 
+   }
+     
+   @page :right { 
+      margin: 15mm 10mm 15mm 20mm; 
+   }
+
+   p, h2, h3 { 
+      orphans: 3; widows: 3; 
+   }
+
+   h2, h3 { 
+      page-break-after: avoid; 
+   }
+}
+</style>
+
+
+
+</head>
+
+<body>
+<!--
+%\VignetteEngine{knitr::knitr}
+%\VignetteIndexEntry{rDVR basics}
+-->
+
+<h1>rDVR basics</h1>
+
+<h2>Introduction</h2>
+
+<p>The goal of rDVR is to make it easy to record an R session across platforms. rDVR was initially concieved to aid in testing web applications such as those written with <a href="http://www.rstudio.com/shiny/">shiny</a>. One way to test such applications is with <a href="http://docs.seleniumhq.org/">Selenium</a>. Selenium automates browsers. Often when testing wep applications it is useful to have visual aids when items fail. Selenium itself allows the user to take screenshots and indeed automate the taking of screenshots when errors are encountered. Screenshots are great but video is even better. Selenium allows you to control a diverse range of browsers across multiple operating systems thus any video solution needs to be cross platform.</p>
+
+<h3>Monte Media Library</h3>
+
+<p>The Monte Media Library is a Java library for processing media data. Supported media formats include still images, video, audio and meta-data. Part of the library has a screen recorder associated with it. We can utilise this to create a video server. Importantly use of the Monte Media Library is free for all uses (non-commercial, commercial and educational) under the terms of Creative Commons Attribution 3.0 (CC BY 3.0). rDVR doesnt incoporate any code from Monte Media Library but it does give you the option to drive a binary derived from it. </p>
+
+<h3>Tuenti</h3>
+
+<p>The next piece of the puzzle was to create a Java application that would be cross platform using the video recorder element of the Monte Media Library. Thankfully all the hard work in this respect was done for us. <a href="http://corporate.tuenti.com/en/dev/blog/video-recordings-of-browser-tests">Tuenti</a> had been using just this approach to aid their Selenium web testing. They had created a REST API using 
+Grizzly, Jersey, and Glassfish. Best of all they had been kind enough to release it all recently under an Apache licence.
+A few minor changes were made to Tuenti&#39;s <a href="https://github.com/tuenti/VideoRecorderService">solution</a>. Firstly the length of video was extended from 2 minutes to 10 minutes. Next the server was altered so that it would run as a background process in linux. Finally a REST API endpoint was added <code>/rec/closeserver</code> to handle closing the server down. These additions and modifications are accessible at <a href="https://github.com/johndharrison/VideoRecorderService">https://github.com/johndharrison/VideoRecorderService</a> .</p>
+
+<h1>Usage</h1>
+
+<h2>Basic usage</h2>
+
+<h3>Install</h3>
+
+<p>Basic usage in this respect relates to using the provided binary and not rolling your own. I have compiled the jar file and it resides at <a href="https://dl.dropboxusercontent.com/u/38391057/videorecorderservice-2.0.jar">https://dl.dropboxusercontent.com/u/38391057/videorecorderservice-2.0.jar</a> . The jar is not signed. If anyone would be kind enough to compile the project on Maven and sign it I would be very grateful. Initially lets assume the user is using this provided binary. Currently rDVR is available on github but not CRAN. To install rDVR we will use the <code>devtools</code> package.</p>
+
+<pre><code>devtools::install_github(&#39;johndharrison/rDVR&#39;)
+library(rDVR)
+&gt; startVideoServer()
+Error in startVideoServer() : 
+  No Video Recorder binary exists. Run checkForVServer or start video server manually.
+
+</code></pre>
+
+<h3>Get the server JAR</h3>
+
+<p>When first the <code>startVideoServer</code> utility function is ran it requires a compiled binary of the project at <a href="https://github.com/johndharrison/VideoRecorderService">https://github.com/johndharrison/VideoRecorderService</a>. The utility function <code>checkForVServer</code> can download the necessary binary for the user. It places this jar file in the /bin directory of the <code>rDVR</code> package by default. There is an option to place the jar elsewhere see the documentation. </p>
+
+<pre><code>&gt; checkForVServer()
+        PLEASE NOTE THIS FUNCTION WILL DOWNLOAD A STANDALONE BINARY JAVA
+        JAR FROM https://dl.dropboxusercontent.com/u/38391057/videorecorderservice-2.0.jar. THIS JAR
+        HAS BEEN COMPILED BY THE AUTHOR OF THIS PACKAGE&gt; IF YOU WOULD 
+        PREFER TO COMPILE YOUR OWN PLEASE REFER TO THE DOCUMENTATION.
+PLEASE REPLY (Y) yes TO PROCEED:Y
+[1] &quot;DOWNLOADING STANDALONE VIDEO SERVER. THIS MAY TAKE SEVERAL MINUTES&quot;
+trying URL &#39;http://dl.dropboxusercontent.com/u/38391057/videorecorderservice-2.0.jar&#39;
+Content type &#39;application/java-archive&#39; length 4466003 bytes (4.3 Mb)
+opened URL
+downloaded 4.3 Mb
+
+&gt; list.files(file.path(find.package(&#39;rDVR&#39;), &#39;bin&#39;))
+[1] &quot;run.sh&quot;                       &quot;videorecorderservice-2.0.jar&quot;
+
+</code></pre>
+
+<p>You can see the user is asked to answer yes that they do intend to download this <code>.jar</code> and we can see it is placed in the <code>rDVR</code> bin directory. 
+Now we can start the video server. The utility function has a number of options such as the location of the JAR. For windows users it has an <code>invisible</code> option which relates to whether the shell the server runs in is visible or not to the user. Also there is a <code>savedir</code> option. It defaults to the OS temp directory. We will set it to the current directory we are working in:</p>
+
+<pre><code>&gt; getwd()
+[1] &quot;C:/Users/john/Documents&quot;
+
+</code></pre>
+
+<p>which in the case of this windows machine is the users <code>Documents</code> folder. </p>
+
+<pre><code>startVideoServer(invisible = FALSE, savedir = getwd())
+</code></pre>
+
+<p>This will now start the server. If you are running windows you will be able to see the server output. Now we are ready to record our first video.</p>
+
+<h3>My first video</h3>
+
+<pre><code>&gt; DVR &lt;- rDVR(saveDir = getwd())
+&gt; DVR$start(fileName = &quot;firstVid&quot;)
+[1] &quot;Starting recording of video:&quot;
+&gt; for(i in seq(10)){Sys.sleep(1)}
+&gt; DVR$save()
+[1] &quot;Saving video &quot;
+&gt; DVR$closeServer() # BYE BYE
+[1] &quot;Close the Video Server.&quot;
+NULL
+
+</code></pre>
+
+<p>If you check the <code>Documents</code> folder (or wherever your <code>getwd()</code> is) you should hopefully have a <code>.mov</code> file <code>firstVid.mov</code>. The video was just under 1 mb in size and over a minute long. The Apple QuickTime RLE codec is used. If you would like to use a different codec this can be set on a custom compile of the JAVA project. I have posted <code>firstVid.mov</code> to youtube:</p>
+
+<iframe width="560" height="315" src="//www.youtube.com/embed/EKm15fl083U" frameborder="0" allowfullscreen></iframe>
+
+<p>Its very bland I think you will agree but its very simple five lines of code and you can automate a useful recording of your work etc.</p>
+
+<h2>Shiny no Bovine</h2>
+
+<p>An example using <code>RSelenium</code> will look at the demo from the <a href="http://cran.r-project.org/web/packages/shinyBS/index.html">shinyBS</a> package. I have a mirror of the demo running at <a href="http://spark.rstudio.com/johnharrison/shinyBS-Demo/">http://spark.rstudio.com/johnharrison/shinyBS-Demo/</a>. The <code>shinyBS</code> package extends the users ability to integrate the twitter bootstrap library into their shiny web applications. The demo is a great showcase for the package and we will record <code>RSelenium</code> interacting with the various components.
+We look at the first three tabs for brevity. You can view the code that created the video in the Appendix. I have posted <code>secondVid.mov</code> to youtube:</p>
+
+<iframe width="560" height="315" src="//www.youtube.com/embed/XvVBT-rojz0" frameborder="0" allowfullscreen></iframe>
+
+<h1>Compiling the JAVA service</h1>
+
+<p>Compiling the JAVA service to tailor your own JAR is straightforward. The github page has a link where the user can download a zip file <a href="https://github.com/johndharrison/VideoRecorderService/archive/master.zip">https://github.com/johndharrison/VideoRecorderService/archive/master.zip</a> . I compiled the service using maven 3 in ubuntu 12.04. Firstly I had to install maven.</p>
+
+<pre><code>sudo apt-get install maven
+</code></pre>
+
+<p>The monte media library has a <a href="http://www.randelshofer.ch/monte/files/MonteMedia-0.7.7src-cc.zip">zip</a> to download on its front page. For convience I unzipped this in my HOME directory and added it using maven. </p>
+
+<pre><code>mvn install:install-file -Dfile= /home/john/MonteMediaCC/dist/monte-cc.jar -DgroupId=org.monte -DartifactId=screen-recorder -Dversion=0.7.7 -Dpackaging=jar
+</code></pre>
+
+<p>I unzipped the VideoRecorderService also into my home directory. </p>
+
+<pre><code>cd ~
+cd VideoRecorderService
+mvn package
+</code></pre>
+
+<p>Now the relevant JAR will be in ~/VideoRecorderService/target/.</p>
+
+<h1>Appendix</h1>
+
+<h2>Code for second video</h2>
+
+<p>In a seperate R have the shinyBS demo running </p>
+
+<pre><code>require(shinyBS)
+bsDemo(port = 7654, FALSE)
+
+</code></pre>
+
+<pre><code>require(rDVR)
+require(RSelenium)
+# start the video server
+startVideoServer(savedir = getwd())
+DVR &lt;- rDVR(saveDir = getwd())
+Sys.sleep(5)
+DVR$start(fileName = &quot;secondVid&quot;)
+RSelenium::startServer() # start selenium server
+remDr &lt;- remoteDriver()
+remDr$open()
+remDr$maxWindowSize()
+
+remDr$navigate(&quot;http://localhost:7654/&quot;)
+tabElems &lt;- remDr$findElements(&quot;css selector&quot;, &quot;#tabset a&quot;)
+length(tabElems)
+sapply(tabElems, function(x){x$getElementText()[[1]]})
+# tab ids change from session to session
+tabID &lt;- sapply(tabElems, function(x){x$getElementAttribute(&quot;href&quot;)[[1]]})
+tabID &lt;- gsub(&quot;.*(#.*)&quot;, &quot;\\1&quot;, tabID)
+# Cycle thru each tab using highlightElement then retrun to introduction
+out &lt;- lapply(tabElems[c(2:10, 1)], function(x){
+  x$highlightElement()
+  x$clickElement()
+  Sys.sleep(2)
+})
+# INTERACT WITH THE NAVBARS
+tabElems[[2]]$highlightElement()
+tabElems[[2]]$clickElement()
+# customise the Brand
+brandElem &lt;- remDr$findElement(&quot;id&quot;, &quot;nbBrand&quot;)
+brandElem$highlightElement()
+brandElem$clearElement()
+brandElem$sendKeysToElement(list(&quot;BossNB&quot;, key = &quot;enter&quot;))
+Sys.sleep(2)
+# click the Link 5 times
+linkElem &lt;- remDr$findElement(&quot;id&quot;, &quot;nbLink1&quot;)
+out &lt;- try(remDr$executeScript(&quot;arguments[0].scrollIntoView(true);&quot;, list(linkElem)), silent = TRUE) # scroll down if necessary
+linkElem$highlightElement()
+out &lt;- lapply(seq(5), function(x){linkElem$clickElement()
+                                  Sys.sleep(1)
+})
+
+# navigate the dropdown
+ddElem &lt;- remDr$findElement(&quot;id&quot;, &quot;nbdd&quot;)
+ddElem$highlightElement()
+# complicated dropdown easiest to interact by changing class
+ddElem$setElementAttribute(&quot;class&quot;, &quot;dropdown sbs-dropdown shiny-bound-input open&quot;)
+ddElems &lt;- remDr$findElements(&quot;css selector&quot;, &quot;#nbdd li a&quot;)
+sapply(ddElems, function(x){x$getElementText()[[1]]})
+out &lt;- lapply(ddElems, function(x){
+  ddElem$setElementAttribute(&quot;class&quot;, &quot;dropdown sbs-dropdown shiny-bound-input open&quot;)
+  x$highlightElement()
+  x$clickElement()
+  Sys.sleep(1)
+})
+
+# toggle link 2
+linkElem &lt;- remDr$findElement(&quot;id&quot;, &quot;nbLink2&quot;)
+linkElem$highlightElement()
+out &lt;- lapply(seq(5), function(x){linkElem$clickElement()
+                                  Sys.sleep(1)
+})
+
+# text input and button
+textElem &lt;- remDr$findElement(&quot;id&quot;, &quot;nbText&quot;)
+buttonElem &lt;- remDr$findElement(&quot;id&quot;, &quot;nbButton&quot;)
+textElem$highlightElement()
+buttonElem$highlightElement()
+
+out &lt;- lapply(seq(5), function(x){
+  textElem$clearElement()
+  textElem$sendKeysToElement(list(paste(&quot;press button&quot;, x), key = &#39;enter&#39;))
+  buttonElem$clickElement()
+  Sys.sleep(1)
+})
+
+# INTERACT WITH THE ALERTS
+tabElems[[3]]$clickElement()
+tabElems[[3]]$highlightElement()
+Sys.sleep(1)
+alertElem &lt;- remDr$findElement(&quot;id&quot;, &quot;alert_anchor&quot;)
+out &lt;- try(remDr$executeScript(&quot;arguments[0].scrollIntoView(true);&quot;, list(alertElem)), silent = TRUE) # scroll down if necessary
+alertElem$highlightElement()
+
+# clear checkboxs that are selected
+cbElems &lt;- remDr$findElements(&quot;css selector&quot;, paste(tabID[[3]], &quot;label.checkbox input&quot;))
+cbLabelElems &lt;- remDr$findElements(&quot;css selector&quot;, paste(tabID[[3]], &quot;label.checkbox&quot;))
+out &lt;- lapply(seq_along(cbElems), function(x){
+  cbLabelElems[[x]]$highlightElement()
+  enabled &lt;- cbElems[[x]]$isElementSelected()[[1]]
+  if(enabled){cbElems[[x]]$clickElement()}
+})
+
+ddElem &lt;- remDr$findElement(&quot;css selector&quot;, paste(tabID[[3]], &quot;.selectize-input&quot;))
+for(i in 1:4){
+  # DOM gets rewritten each time so ddElems needs to be found each time
+  ddElem$clickElement()
+  ddElems &lt;- remDr$findElements(&quot;css selector&quot;, paste(tabID[[3]], &quot;.selectize-dropdown .option&quot;))
+  ddElems[[i]]$highlightElement()
+  ddElems[[i]]$clickElement()
+  Sys.sleep(1)
+}
+
+# INTERACT WITH THE PROGRESS BARS
+tabElems[[4]]$clickElement()
+tabElems[[4]]$highlightElement()
+Sys.sleep(1)
+
+pbElem &lt;- remDr$findElement(&quot;id&quot;, &quot;pb1&quot;)
+out &lt;- try(remDr$executeScript(&quot;arguments[0].scrollIntoView(true);&quot;, list(pbElem)), silent = TRUE) # scroll down if necessary
+pbElem$highlightElement()
+
+
+
+pbradio &lt;- remDr$findElements(&quot;css selector&quot;, &quot;#pbradio input&quot;)
+pbradiolabel &lt;- remDr$findElements(&quot;css selector&quot;, &quot;#pbradio label&quot;)
+
+lapply(c(2,3,1), function(x){
+  pbradiolabel[[x+1]]$highlightElement()
+  pbradio[[x]]$clickElement()
+  Sys.sleep(3)
+})
+
+ddElem &lt;- remDr$findElement(&quot;css selector&quot;, paste(tabID[[4]], &quot;.selectize-input&quot;))
+for(i in 1:5){
+  # DOM gets rewritten each time so ddElems needs to be found each time
+  ddElem$clickElement()
+  ddElems &lt;- remDr$findElements(&quot;css selector&quot;, paste(tabID[[4]], &quot;.selectize-dropdown .option&quot;))
+  ddElems[[i]]$highlightElement()
+  ddElems[[i]]$clickElement()
+  Sys.sleep(1)
+}
+
+
+remDr$close()
+remDr$closeServer()
+DVR$save()
+DVR$closeServer()
+
+
+</code></pre>
+
+</body>
+
+</html>
