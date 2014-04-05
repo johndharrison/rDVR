@@ -1,5 +1,8 @@
 # rDVR
 
+#### Travis build status
+[![Build Status](https://travis-ci.org/johndharrison/rDVR.svg?branch=master)](https://travis-ci.org/johndharrison/rDVR)
+
 The rDVR package provides an R wrapper to a REST API for a video server. The REST API is written in JAVA and is a modified version of [VideoRecorderService](https://github.com/tuenti/VideoRecorderService). This video server relies on the screen recorder included in the great Monte Media Library developed by Werner Randelshofer (http://http://www.randelshofer.ch/monte/). It has been modified to run as a background process and record for up-to 10 minutes. An extra method /rec/closeserver has been added to the REST API to enable shutting down of the service. It has been tested on Ubuntu 12.04, Windows 8.1 and OSx 10.9 mavericks. 
 
 ### USAGE
