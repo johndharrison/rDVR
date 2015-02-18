@@ -27,7 +27,7 @@ checkForVServer <- function (jarloc = NULL, update = FALSE, method = "internal",
     if(!identical(ans, "Y")){stop("Please agree to download or read documentation on rolling your own binary.")}
     dir.create(jarLoc, showWarnings=FALSE)
     print("DOWNLOADING STANDALONE VIDEO SERVER. THIS MAY TAKE SEVERAL MINUTES")
-    download.file(paste0( vsURL, "videorecorderservice-2.0.jar"), dvrFILE, mode = "wb")
+    download.file(paste0( vsURL, "videorecorderservice-2.0.jar"), dvrFILE, mode = "wb", method = method, extra = extra)
   }else{
     stop("FILE ALREADY EXISTS.")
   }
