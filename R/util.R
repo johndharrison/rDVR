@@ -4,6 +4,8 @@
 #' A utility function to check if the Video Server standalone binary is present.
 #' @param jarloc A directory in which the binary is to be placed. Defaults to the /bin of rDVR package.
 #' @param update A boolean indicating whether to update the binary if it is present.
+#' @param method Method to be used for downloading files. Passed to \code{\link{download.file}}
+#' @param extra  character vector of additional command-line arguments for the "wget", "curl" and "lynx" methods. Passed to \code{\link{download.file}}
 #' @export
 #' @section Detail: The Video Server java binary can be found at https://github.com/johndharrison/rDVR. If users would like to create their own please refe to documentation. This convience function downloads the standalone server and places it in the rDVR package directory bin folder by default.
 #' @examples
@@ -11,7 +13,7 @@
 #' checkForVServer()
 #' }
 
-checkForVServer <- function (jarloc = NULL, update = FALSE) 
+checkForVServer <- function (jarloc = NULL, update = FALSE, method = "internal", extra = getOption("download.file.extra")) 
 {
   vsURL <- "http://dl.dropboxusercontent.com/u/38391057/"
   jarLoc <- ifelse(is.null(jarloc), file.path(find.package("rDVR"), "bin"), jarloc)
